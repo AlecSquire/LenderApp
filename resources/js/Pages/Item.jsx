@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
@@ -59,14 +57,9 @@ export default function Item({ auth }) {
     const formatDate = (dateString) => {
         try {
             if (!dateString) return "No date returned";
-
-            // First check if the date is valid
             const timestamp = Date.parse(dateString);
             if (isNaN(timestamp)) return "No date returned";
-
             const date = new Date(dateString);
-
-            // Check if the date is Jan 1, 1970 (Unix epoch start or invalid date)
             if (
                 date.getFullYear() === 1970 &&
                 date.getMonth() === 0 &&
@@ -74,8 +67,6 @@ export default function Item({ auth }) {
             ) {
                 return "No date returned";
             }
-
-            // Use format from date-fns for valid dates
             return format(date, "PPP");
         } catch (error) {
             console.error("Error formatting date:", error);
@@ -89,22 +80,12 @@ export default function Item({ auth }) {
                 setLoading(true);
                 const response = await fetch(`/api/items/${id}`, {
                     method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                    },
+                    headers: { Accept: "application/json" },
                     credentials: "include",
                 });
-
-                if (!response.ok) {
-                    throw new Error("Failed to fetch item");
-                }
-
+                if (!response.ok) throw new Error("Failed to fetch item");
                 const data = await response.json();
-                console.log(
-                    "Return date from API:",
-                    data.data?.return_date || data.return_date
-                );
-                setItem(data.data || data); // Handle nested data or flat response
+                setItem(data.data || data);
                 setNotes(data.data?.notes || data.notes || "");
                 setError(null);
             } catch (error) {
@@ -114,7 +95,6 @@ export default function Item({ auth }) {
                 setLoading(false);
             }
         };
-
         fetchItem();
     }, [id]);
 
@@ -133,15 +113,7 @@ export default function Item({ auth }) {
                 },
                 body: JSON.stringify(item),
             });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(
-                    errorData.message || "Failed to send notification"
-                );
-            }
-
-            await response.json();
+            if (!response.ok) throw new Error("Failed to send notification");
         } catch (error) {
             console.error("Error sending notification:", error);
         } finally {
@@ -164,16 +136,8 @@ export default function Item({ auth }) {
                 },
                 body: JSON.stringify({ notes }),
             });
-
             if (!response.ok) throw new Error("Failed to update notes");
-
-            // Update the item state with the new notes
-            setItem((prev) => ({
-                ...prev,
-                notes,
-            }));
-
-            // Show a success message or toast here if you have one
+            setItem((prev) => ({ ...prev, notes }));
         } catch (error) {
             console.error("Error updating notes:", error);
         } finally {
@@ -193,13 +157,13 @@ export default function Item({ auth }) {
                             ?.getAttribute("content") || "",
                 },
             });
-
             if (!response.ok) throw new Error("Failed to delete item");
             router.visit(route("dashboard"));
         } catch (error) {
             console.error("Error deleting item:", error);
         }
     };
+
     const handleStatusChange = async (isReturned) => {
         try {
             const response = await fetch(`/api/items/${id}`, {
@@ -213,23 +177,10 @@ export default function Item({ auth }) {
                 },
                 body: JSON.stringify({ isReturned }),
             });
-
             if (!response.ok) throw new Error("Failed to update item status");
-
-            // Parse the response to get updated data
             const updatedItem = await response.json();
-
-            // Update local state
-            setItem((prev) => ({
-                ...prev,
-                isReturned: isReturned,
-            }));
-
-            // Option 1: Stay on page to show the user the status changed
+            setItem((prev) => ({ ...prev, isReturned }));
             setIsConfirmReturnOpen(false);
-
-            // Option 2: Redirect after a short delay
-            // setTimeout(() => router.visit(route("dashboard")), 1000);
         } catch (error) {
             console.error("Error updating item status:", error);
         }
@@ -240,10 +191,10 @@ export default function Item({ auth }) {
             user={auth.user}
             header={
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold">Item Details</h2>
+                    <h2 className="text-xl font-semibold text-foreground">Item Details</h2>
                     <Link
                         href={route("dashboard")}
-                        className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                        className="text-sm font-medium text-muted hover:text-foreground"
                     >
                         Back to Dashboard
                     </Link>
@@ -255,17 +206,15 @@ export default function Item({ auth }) {
             <SidebarProvider>
                 <SidebarInset className="bg-background min-h-screen p-6">
                     {loading ? (
-                        <div className="container mx-auto">Loading...</div>
+                        <div className="container mx-auto text-foreground">Loading...</div>
                     ) : error ? (
                         <div className="container mx-auto">
                             <Card>
                                 <CardContent className="pt-6">
-                                    <div className="text-red-500">{error}</div>
+                                    <div className="text-destructive">{error}</div>
                                     <Button
                                         variant="outline"
-                                        onClick={() =>
-                                            router.visit(route("dashboard"))
-                                        }
+                                        onClick={() => router.visit(route("dashboard"))}
                                         className="mt-4"
                                     >
                                         Take me home
@@ -274,7 +223,7 @@ export default function Item({ auth }) {
                             </Card>
                         </div>
                     ) : !item ? (
-                        <div className="container mx-auto">Item not found</div>
+                        <div className="container mx-auto text-foreground">Item not found</div>
                     ) : (
                         <div className="container mx-auto max-w-5xl">
                             <div className="flex items-center mb-6">
@@ -290,11 +239,7 @@ export default function Item({ auth }) {
                                     </Link>
                                 </Button>
                                 <Badge
-                                    variant={
-                                        item.transaction_type !== "borrowing"
-                                            ? "destructive"
-                                            : "default"
-                                    }
+                                    variant={item.transaction_type !== "borrowing" ? "destructive" : "default"}
                                     className="gap-1"
                                 >
                                     {item.transaction_type !== "borrowing" ? (
@@ -316,81 +261,40 @@ export default function Item({ auth }) {
                                     <CardHeader>
                                         <div className="flex justify-between items-start">
                                             <div>
-                                                <CardTitle className="text-2xl">
+                                                <CardTitle className="text-2xl text-foreground">
                                                     {item.item_name}
                                                 </CardTitle>
-                                                <CardDescription className="mt-2">
+                                                <CardDescription className="mt-2 text-muted">
                                                     {item.item_description}
                                                 </CardDescription>
                                             </div>
                                         </div>
                                     </CardHeader>
                                     <CardContent>
-                                        <Tabs
-                                            defaultValue="details"
-                                            className="w-full"
-                                        >
+                                        <Tabs defaultValue="details" className="w-full">
                                             <TabsList>
-                                                <TabsTrigger value="details">
-                                                    Details
-                                                </TabsTrigger>
-                                                <TabsTrigger value="notes">
-                                                    Notes
-                                                </TabsTrigger>
+                                                <TabsTrigger value="details">Details</TabsTrigger>
+                                                <TabsTrigger value="notes">Notes</TabsTrigger>
                                             </TabsList>
 
-                                            <TabsContent
-                                                value="details"
-                                                className="space-y-4"
-                                            >
+                                            <TabsContent value="details" className="space-y-4">
                                                 <div className="grid gap-4 py-4">
                                                     {[
-                                                        {
-                                                            icon: User,
-                                                            label: "Contact Name",
-                                                            value: item.contact_name,
-                                                        },
-                                                        {
-                                                            icon: Mail,
-                                                            label: "Contact Email",
-                                                            value: item.contact_email,
-                                                        },
-                                                        {
-                                                            icon: Package,
-                                                            label: "Item Name",
-                                                            value: item.item_name,
-                                                        },
-                                                        {
-                                                            icon: Calendar,
-                                                            label: "Return Date",
-                                                            value: formatDate(
-                                                                item.return_date
-                                                            ),
-                                                        },
-                                                    ].map(
-                                                        ({
-                                                            icon: Icon,
-                                                            label,
-                                                            value,
-                                                        }) => (
-                                                            <div
-                                                                key={label}
-                                                                className="grid grid-cols-4 items-center gap-4"
-                                                            >
-                                                                <Label className="text-right">
-                                                                    <Icon className="h-4 w-4 ml-auto" />
-                                                                </Label>
-                                                                <div className="col-span-3">
-                                                                    <p className="font-medium">
-                                                                        {value}
-                                                                    </p>
-                                                                    <p className="text-sm text-muted-foreground">
-                                                                        {label}
-                                                                    </p>
-                                                                </div>
+                                                        { icon: User, label: "Contact Name", value: item.contact_name },
+                                                        { icon: Mail, label: "Contact Email", value: item.contact_email },
+                                                        { icon: Package, label: "Item Name", value: item.item_name },
+                                                        { icon: Calendar, label: "Return Date", value: formatDate(item.return_date) },
+                                                    ].map(({ icon: Icon, label, value }) => (
+                                                        <div key={label} className="grid grid-cols-4 items-center gap-4">
+                                                            <Label className="text-right">
+                                                                <Icon className="h-4 w-4 ml-auto text-foreground" />
+                                                            </Label>
+                                                            <div className="col-span-3">
+                                                                <p className="font-medium text-foreground">{value}</p>
+                                                                <p className="text-sm text-muted">{label}</p>
                                                             </div>
-                                                        )
-                                                    )}
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             </TabsContent>
 
@@ -398,20 +302,14 @@ export default function Item({ auth }) {
                                                 <div className="space-y-4">
                                                     <Textarea
                                                         placeholder="Add notes about this item..."
-                                                        className="min-h-[200px]"
+                                                        className="min-h-[200px] textarea"
                                                         value={notes}
-                                                        onChange={(e) =>
-                                                            setNotes(
-                                                                e.target.value
-                                                            )
-                                                        }
+                                                        onChange={(e) => setNotes(e.target.value)}
                                                     />
                                                     <Button
-                                                        onClick={
-                                                            handleNotesUpdate
-                                                        }
+                                                        onClick={handleNotesUpdate}
                                                         disabled={isSaving}
-                                                        className="w-full"
+                                                        className="w-full button"
                                                     >
                                                         {isSaving ? (
                                                             "Saving..."
@@ -431,101 +329,63 @@ export default function Item({ auth }) {
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Status</CardTitle>
+                                            <CardTitle className="text-foreground">Status</CardTitle>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="space-y-4">
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-sm font-medium">
+                                                    <span className="text-sm font-medium text-foreground">
                                                         Current Status
                                                     </span>
                                                     <Badge
-                                                        variant={
-                                                            item.isReturned
-                                                                ? "outline"
-                                                                : "secondary"
-                                                        }
+                                                        variant={item.isReturned ? "outline" : "secondary"}
                                                         className={cn(
                                                             item.isReturned
-                                                                ? "text-green-600"
-                                                                : "text-yellow-600"
+                                                                ? "text-green-500 dark:text-green-400" // Adjusted for dark mode
+                                                                : "text-primary"
                                                         )}
                                                     >
-                                                        {item.isReturned
-                                                            ? "Returned"
-                                                            : "Active"}
+                                                        {item.isReturned ? "Returned" : "Active"}
                                                     </Badge>
                                                 </div>
                                                 <Separator />
                                                 <div className="space-y-2">
-                                                    <Label className="text-sm">
-                                                        Mark as:
-                                                    </Label>
+                                                    <Label className="text-sm text-foreground">Mark as:</Label>
                                                     <div className="grid grid-cols-2 gap-2">
                                                         <Dialog
-                                                            open={
-                                                                isConfirmReturnOpen
-                                                            }
-                                                            onOpenChange={
-                                                                setIsConfirmReturnOpen
-                                                            }
+                                                            open={isConfirmReturnOpen}
+                                                            onOpenChange={setIsConfirmReturnOpen}
                                                         >
-                                                            <DialogTrigger
-                                                                asChild
-                                                            >
+                                                            <DialogTrigger asChild>
                                                                 <Button
                                                                     variant="outline"
                                                                     size="sm"
                                                                     className="w-full"
-                                                                    disabled={
-                                                                        item.isReturned
-                                                                    }
+                                                                    disabled={item.isReturned}
                                                                 >
-                                                                    <CheckCircle2 className="mr-2 h-4 w-4 text-green-600" />
+                                                                    <CheckCircle2 className="mr-2 h-4 w-4 text-green-500 dark:text-green-400" />
                                                                     Returned
                                                                 </Button>
                                                             </DialogTrigger>
                                                             <DialogContent>
                                                                 <DialogHeader>
-                                                                    <DialogTitle>
-                                                                        Mark as
-                                                                        Returned
+                                                                    <DialogTitle className="text-foreground">
+                                                                        Mark as Returned
                                                                     </DialogTitle>
-                                                                    <DialogDescription>
-                                                                        Are you
-                                                                        sure you
-                                                                        want to
-                                                                        mark
-                                                                        this
-                                                                        item as
-                                                                        returned?
-                                                                        This
-                                                                        will
-                                                                        delete
-                                                                        the item
-                                                                        from
-                                                                        your
-                                                                        list.
+                                                                    <DialogDescription className="text-muted">
+                                                                        Are you sure you want to mark this item as returned? This will delete the item from your list.
                                                                     </DialogDescription>
                                                                 </DialogHeader>
                                                                 <DialogFooter className="mt-4">
                                                                     <Button
                                                                         variant="outline"
-                                                                        onClick={() =>
-                                                                            setIsConfirmReturnOpen(
-                                                                                false
-                                                                            )
-                                                                        }
+                                                                        onClick={() => setIsConfirmReturnOpen(false)}
                                                                     >
                                                                         Cancel
                                                                     </Button>
                                                                     <Button
                                                                         variant="default"
-                                                                        onClick={() =>
-                                                                            handleStatusChange(
-                                                                                true
-                                                                            )
-                                                                        }
+                                                                        onClick={() => handleStatusChange(true)}
                                                                     >
                                                                         Confirm
                                                                     </Button>
@@ -537,16 +397,10 @@ export default function Item({ auth }) {
                                                             variant="outline"
                                                             size="sm"
                                                             className="w-full"
-                                                            disabled={
-                                                                !item.isReturned
-                                                            }
-                                                            onClick={() =>
-                                                                handleStatusChange(
-                                                                    false
-                                                                )
-                                                            }
+                                                            disabled={!item.isReturned}
+                                                            onClick={() => handleStatusChange(false)}
                                                         >
-                                                            <XCircle className="mr-2 h-4 w-4 text-yellow-600" />
+                                                            <XCircle className="mr-2 h-4 w-4 text-primary" />
                                                             Active
                                                         </Button>
                                                     </div>
@@ -557,28 +411,20 @@ export default function Item({ auth }) {
 
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Quick Actions</CardTitle>
+                                            <CardTitle className="text-foreground">Quick Actions</CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-2">
                                             <Button
-                                                className="w-full"
+                                                className="w-full button"
                                                 variant="secondary"
                                                 onClick={() => notify(item)}
                                             >
-                                                {sending
-                                                    ? "Sending..."
-                                                    : "Send reminder"}
+                                                {sending ? "Sending..." : "Send reminder"}
                                             </Button>
 
-                                            <Dialog
-                                                open={isDeleteOpen}
-                                                onOpenChange={setIsDeleteOpen}
-                                            >
+                                            <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
                                                 <DialogTrigger asChild>
-                                                    <Button
-                                                        className="w-full"
-                                                        variant="destructive"
-                                                    >
+                                                    <Button className="w-full" variant="destructive">
                                                         Delete Case
                                                     </Button>
                                                 </DialogTrigger>
@@ -589,17 +435,11 @@ export default function Item({ auth }) {
                                                                 <AlertTriangle className="h-6 w-6 text-destructive" />
                                                             </div>
                                                             <div>
-                                                                <DialogTitle>
+                                                                <DialogTitle className="text-foreground">
                                                                     Delete Item
                                                                 </DialogTitle>
-                                                                <DialogDescription>
-                                                                    Are you sure
-                                                                    you want to
-                                                                    delete this
-                                                                    item? This
-                                                                    action
-                                                                    cannot be
-                                                                    undone.
+                                                                <DialogDescription className="text-muted">
+                                                                    Are you sure you want to delete this item? This action cannot be undone.
                                                                 </DialogDescription>
                                                             </div>
                                                         </div>
@@ -607,43 +447,29 @@ export default function Item({ auth }) {
                                                     <div className="rounded-lg border border-muted p-4 mt-4">
                                                         <div className="space-y-3">
                                                             <div>
-                                                                <span className="text-sm font-medium">
+                                                                <span className="text-sm font-medium text-foreground">
                                                                     Item Name
                                                                 </span>
-                                                                <p className="text-sm text-muted-foreground">
-                                                                    {
-                                                                        item.item_name
-                                                                    }
-                                                                </p>
+                                                                <p className="text-sm text-muted">{item.item_name}</p>
                                                             </div>
                                                             <div>
-                                                                <span className="text-sm font-medium">
+                                                                <span className="text-sm font-medium text-foreground">
                                                                     Contact
                                                                 </span>
-                                                                <p className="text-sm text-muted-foreground">
-                                                                    {
-                                                                        item.contact_name
-                                                                    }
-                                                                </p>
+                                                                <p className="text-sm text-muted">{item.contact_name}</p>
                                                             </div>
                                                         </div>
-                                                    </div>
+            </div>
                                                     <DialogFooter className="mt-4">
                                                         <Button
                                                             variant="outline"
-                                                            onClick={() =>
-                                                                setIsDeleteOpen(
-                                                                    false
-                                                                )
-                                                            }
+                                                            onClick={() => setIsDeleteOpen(false)}
                                                         >
                                                             Cancel
                                                         </Button>
                                                         <Button
                                                             variant="destructive"
-                                                            onClick={
-                                                                handleDelete
-                                                            }
+                                                            onClick={handleDelete}
                                                         >
                                                             Delete Item
                                                         </Button>

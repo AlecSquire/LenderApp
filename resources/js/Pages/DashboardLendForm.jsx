@@ -1,3 +1,4 @@
+// ~/code/LenderApp/resources/js/Pages/DashboardLendForm.jsx
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -15,9 +16,9 @@ import {
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
+    DialogDescription,
     DialogFooter,
 } from "@/components/ui/dialog";
 import {
@@ -73,9 +74,9 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                     e.stopPropagation();
                     setShowAuthModal(true);
                 }}
-                className="relative"
+                style={{ position: 'relative' }}
             >
-                <div className="absolute inset-0 bg-background/50 z-10 cursor-pointer" />
+                <div style={{ position: 'absolute', inset: 0, backgroundColor: 'hsla(20, 14.3%, 4.1%, 0.5)', zIndex: 10, cursor: 'pointer' }} />
                 {children}
             </div>
         );
@@ -161,325 +162,233 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
 
     return (
         <>
-            <Card className="h-full shadow-sm">
-                <CardHeader className="pb-3 border-b">
-                    <CardTitle className="text-xl font-semibold">
+            <Card className="card" style={{ height: '100%', boxShadow: '0 1px 3px hsla(0, 0%, 0%, 0.1)' }}>
+                <CardHeader style={{ paddingBottom: '0.75rem', borderBottom: '1px solid hsl(20 14.3% 20%)' }}>
+                    <CardTitle style={{ fontSize: '1.25rem', fontWeight: 600, color: 'hsl(var(--foreground))' }}>
                         Add New Item
                     </CardTitle>
-                    <CardDescription className="text-sm text-muted-foreground">
-                        Record an item you're{" "}
-                        {transactionType === "lending"
-                            ? "lending to someone"
-                            : "borrowing from someone"}
+                    <CardDescription style={{ fontSize: '0.875rem', color: 'hsl(var(--muted-foreground))' }}>
+                        Record an item you're {transactionType === "lending" ? "lending to someone" : "borrowing from someone"}
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="pt-6">
+                <CardContent style={{ paddingTop: '1.5rem' }}>
                     <FormWrapper>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="space-y-5">
-                                <div className="flex items-center justify-start gap-6 bg-muted/30 p-3 rounded-lg">
-                                    <span className="text-sm font-medium">
-                                        I am:
-                                    </span>
-                                    <div className="flex gap-4">
-                                        <Controller
-                                            name="transaction_type"
-                                            control={control}
-                                            render={({ field }) => (
-                                                <>
-                                                    <div className="flex items-center space-x-2">
-                                                        <input
-                                                            type="radio"
-                                                            id="lending"
-                                                            value="lending"
-                                                            className="peer sr-only"
-                                                            checked={
-                                                                field.value ===
-                                                                "lending"
-                                                            }
-                                                            onChange={() =>
-                                                                field.onChange(
-                                                                    "lending"
-                                                                )
-                                                            }
-                                                        />
-                                                        <label
-                                                            htmlFor="lending"
-                                                            onClick={() =>
-                                                                field.onChange(
-                                                                    "lending"
-                                                                )
-                                                            }
-                                                            className="px-3 py-1 rounded-full text-sm cursor-pointer transition-colors border border-transparent hover:border-muted-foreground/20"
-                                                            style={{
-                                                                backgroundColor:
-                                                                    field.value ===
-                                                                    "lending"
-                                                                        ? "var(--primary)"
-                                                                        : "transparent",
-                                                                color:
-                                                                    field.value ===
-                                                                    "lending"
-                                                                        ? "var(--primary-foreground)"
-                                                                        : "inherit",
-                                                            }}
-                                                        >
-                                                            Lending
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex items-center space-x-2">
-                                                        <input
-                                                            type="radio"
-                                                            id="borrowing"
-                                                            value="borrowing"
-                                                            className="peer sr-only"
-                                                            checked={
-                                                                field.value ===
-                                                                "borrowing"
-                                                            }
-                                                            onChange={() =>
-                                                                field.onChange(
-                                                                    "borrowing"
-                                                                )
-                                                            }
-                                                        />
-                                                        <label
-                                                            htmlFor="borrowing"
-                                                            onClick={() =>
-                                                                field.onChange(
-                                                                    "borrowing"
-                                                                )
-                                                            }
-                                                            className="px-3 py-1 rounded-full text-sm cursor-pointer transition-colors border border-transparent hover:border-muted-foreground/20"
-                                                            style={{
-                                                                backgroundColor:
-                                                                    field.value ===
-                                                                    "borrowing"
-                                                                        ? "var(--primary)"
-                                                                        : "transparent",
-                                                                color:
-                                                                    field.value ===
-                                                                    "borrowing"
-                                                                        ? "var(--primary-foreground)"
-                                                                        : "inherit",
-                                                            }}
-                                                        >
-                                                            Borrowing
-                                                        </label>
-                                                    </div>
-                                                </>
-                                            )}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label
-                                        htmlFor="item_name"
-                                        className="text-sm font-medium"
-                                    >
-                                        Item Name{" "}
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
-                                    </Label>
-                                    <Input
-                                        id="item_name"
-                                        className="h-10"
-                                        {...register("item_name", {
-                                            required: "Item name is required",
-                                        })}
-                                        placeholder={
-                                            transactionType === "lending"
-                                                ? "What are you lending?"
-                                                : "What are you borrowing?"
-                                        }
+                        <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap: '1.5rem', backgroundColor: 'hsla(20, 14.3%, 10%, 0.3)', padding: '0.75rem', borderRadius: '0.5rem' }}>
+                                <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'hsl(var(--foreground))' }}>I am:</span>
+                                <div style={{ display: 'flex', gap: '1rem' }}>
+                                    <Controller
+                                        name="transaction_type"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                    <input
+                                                        type="radio"
+                                                        id="lending"
+                                                        value="lending"
+                                                        style={{ display: 'none' }}
+                                                        checked={field.value === "lending"}
+                                                        onChange={() => field.onChange("lending")}
+                                                    />
+                                                    <label
+                                                        htmlFor="lending"
+                                                        onClick={() => field.onChange("lending")}
+                                                        style={{
+                                                            padding: '0.25rem 0.75rem',
+                                                            borderRadius: '9999px',
+                                                            fontSize: '0.875rem',
+                                                            cursor: 'pointer',
+                                                            backgroundColor: field.value === "lending" ? 'hsl(var(--primary))' : 'transparent',
+                                                            color: field.value === "lending" ? 'hsl(var(--primary-foreground))' : 'hsl(var(--foreground))',
+                                                            border: field.value === "lending" ? 'none' : '1px solid hsla(20, 14.3%, 20%, 0.2)',
+                                                        }}
+                                                    >
+                                                        Lending
+                                                    </label>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                    <input
+                                                        type="radio"
+                                                        id="borrowing"
+                                                        value="borrowing"
+                                                        style={{ display: 'none' }}
+                                                        checked={field.value === "borrowing"}
+                                                        onChange={() => field.onChange("borrowing")}
+                                                    />
+                                                    <label
+                                                        htmlFor="borrowing"
+                                                        onClick={() => field.onChange("borrowing")}
+                                                        style={{
+                                                            padding: '0.25rem 0.75rem',
+                                                            borderRadius: '9999px',
+                                                            fontSize: '0.875rem',
+                                                            cursor: 'pointer',
+                                                            backgroundColor: field.value === "borrowing" ? 'hsl(var(--primary))' : 'transparent',
+                                                            color: field.value === "borrowing" ? 'hsl(var(--primary-foreground))' : 'hsl(var(--foreground))',
+                                                            border: field.value === "borrowing" ? 'none' : '1px solid hsla(20, 14.3%, 20%, 0.2)',
+                                                        }}
+                                                    >
+                                                        Borrowing
+                                                    </label>
+                                                </div>
+                                            </>
+                                        )}
                                     />
-                                    {errors.item_name && (
-                                        <p className="text-xs text-destructive mt-1">
-                                            {errors.item_name.message}
-                                        </p>
-                                    )}
                                 </div>
-                                <div className="space-y-2">
-                                    <Label
-                                        htmlFor="contact_name"
-                                        className="text-sm font-medium"
-                                    >
-                                        Contact Name{" "}
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
-                                    </Label>
-                                    <Input
-                                        id="contact_name"
-                                        className="h-10"
-                                        {...register("contact_name", {
-                                            required:
-                                                "Contact name is required",
-                                        })}
-                                        placeholder={
-                                            transactionType === "lending"
-                                                ? "Who are you lending to?"
-                                                : "Who are you borrowing from?"
-                                        }
-                                    />
-                                    {errors.contact_name && (
-                                        <p className="text-xs text-destructive mt-1">
-                                            {errors.contact_name.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="space-y-2">
-                                    <Label
-                                        htmlFor="contact_email"
-                                        className="text-sm font-medium"
-                                    >
-                                        Contact Email{" "}
-                                        <span className="text-destructive">
-                                            *
-                                        </span>
-                                    </Label>
-                                    <Input
-                                        id="contact_email"
-                                        type="email"
-                                        className="h-10"
-                                        {...register("contact_email", {
-                                            required: "Email is required",
-                                            pattern: {
-                                                value: /^\S+@\S+$/i,
-                                                message: "Invalid email format",
-                                            },
-                                        })}
-                                        placeholder="Email address"
-                                    />
-                                    {errors.contact_email && (
-                                        <p className="text-xs text-destructive mt-1">
-                                            {errors.contact_email.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <Label
-                                                htmlFor="rough_return_period"
-                                                className="text-sm font-medium"
-                                            >
-                                                Rough Return Date
-                                            </Label>
-                                            <Select
-                                                onValueChange={(value) =>
-                                                    handleRoughReturnChange(
-                                                        value
-                                                    )
-                                                }
-                                            >
-                                                <SelectTrigger className="h-10 w-full">
-                                                    <SelectValue placeholder="Select period" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="1week">
-                                                        1 week
-                                                    </SelectItem>
-                                                    <SelectItem value="1month">
-                                                        1 month
-                                                    </SelectItem>
-                                                    <SelectItem value="3months">
-                                                        3 months
-                                                    </SelectItem>
-                                                    <SelectItem value="6months">
-                                                        6 months
-                                                    </SelectItem>
-                                                    <SelectItem value="1year">
-                                                        1 year
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                        <div>
-                                            <Label
-                                                htmlFor="return_date"
-                                                className="text-sm font-medium"
-                                            >
-                                                Exact Return Date{" "}
-                                                <span className="text-destructive">
-                                                    *
-                                                </span>
-                                            </Label>
-                                            <Input
-                                                id="return_date"
-                                                type="date"
-                                                className="h-10"
-                                                {...register("return_date", {
-                                                    required:
-                                                        "Return date is required",
-                                                })}
-                                            />
-                                            {errors.return_date && (
-                                                <p className="text-xs text-destructive mt-1">
-                                                    {errors.return_date.message}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    className="flex items-center text-sm text-muted-foreground w-full justify-start px-0 hover:bg-transparent"
-                                    onClick={() =>
-                                        setShowDescription(!showDescription)
-                                    }
-                                >
-                                    {showDescription ? (
-                                        <>
-                                            <ChevronUp className="h-4 w-4 mr-1" />
-                                            Hide description
-                                        </>
-                                    ) : (
-                                        <>
-                                            <ChevronDown className="h-4 w-4 mr-1" />
-                                            <PenLine className="h-4 w-4 mr-1" />
-                                            Add description (optional)
-                                        </>
-                                    )}
-                                </Button>
-                                {showDescription && (
-                                    <div className="space-y-2 animate-in fade-in-50 duration-200">
-                                        <Label
-                                            htmlFor="item_description"
-                                            className="text-sm font-medium flex items-center"
-                                        >
-                                            Description{" "}
-                                            <span className="text-xs text-muted-foreground ml-1">
-                                                (optional)
-                                            </span>
-                                        </Label>
-                                        <Textarea
-                                            id="item_description"
-                                            className="h-24 resize-none"
-                                            {...register("item_description")}
-                                            placeholder="Add details about the item..."
-                                        />
-                                    </div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                <Label htmlFor="item_name" className="label">
+                                    Item Name <span className="text-destructive">*</span>
+                                </Label>
+                                <Input
+                                    id="item_name"
+                                    className="input"
+                                    style={{ height: '2.5rem' }}
+                                    {...register("item_name", { required: "Item name is required" })}
+                                    placeholder={transactionType === "lending" ? "What are you lending?" : "What are you borrowing?"}
+                                />
+                                {errors.item_name && (
+                                    <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                        {errors.item_name.message}
+                                    </p>
                                 )}
                             </div>
-                            <div className="mt-8">
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                <Label htmlFor="contact_name" className="label">
+                                    Contact Name <span className="text-destructive">*</span>
+                                </Label>
+                                <Input
+                                    id="contact_name"
+                                    className="input"
+                                    style={{ height: '2.5rem' }}
+                                    {...register("contact_name", { required: "Contact name is required" })}
+                                    placeholder={transactionType === "lending" ? "Who are you lending to?" : "Who are you borrowing from?"}
+                                />
+                                {errors.contact_name && (
+                                    <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                        {errors.contact_name.message}
+                                    </p>
+                                )}
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                <Label htmlFor="contact_email" className="label">
+                                    Contact Email <span className="text-destructive">*</span>
+                                </Label>
+                                <Input
+                                    id="contact_email"
+                                    type="email"
+                                    className="input"
+                                    style={{ height: '2.5rem' }}
+                                    {...register("contact_email", {
+                                        required: "Email is required",
+                                        pattern: { value: /^\S+@\S+$/i, message: "Invalid email format" },
+                                    })}
+                                    placeholder="Email address"
+                                />
+                                {errors.contact_email && (
+                                    <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                        {errors.contact_email.message}
+                                    </p>
+                                )}
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                    <div>
+                                        <Label htmlFor="rough_return_period" className="label">
+                                            Rough Return Date
+                                        </Label>
+                                        <Select onValueChange={handleRoughReturnChange}>
+                                            <SelectTrigger className="select" style={{ height: '2.5rem', width: '100%' }}>
+                                                <SelectValue placeholder="Select period" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="1week">1 week</SelectItem>
+                                                <SelectItem value="1month">1 month</SelectItem>
+                                                <SelectItem value="3months">3 months</SelectItem>
+                                                <SelectItem value="6months">6 months</SelectItem>
+                                                <SelectItem value="1year">1 year</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="return_date" className="label">
+                                            Exact Return Date <span className="text-destructive">*</span>
+                                        </Label>
+                                        <Input
+                                            id="return_date"
+                                            type="date"
+                                            className="input"
+                                            style={{ height: '2.5rem' }}
+                                            {...register("return_date", { required: "Return date is required" })}
+                                        />
+                                        {errors.return_date && (
+                                            <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                                {errors.return_date.message}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                            <Button
+                                type="button"
+                                className="button"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    fontSize: '0.875rem',
+                                    color: 'hsl(var(--muted-foreground))',
+                                    width: '100%',
+                                    justifyContent: 'start',
+                                    padding: 0,
+                                    background: 'none',
+                                }}
+                                onClick={() => setShowDescription(!showDescription)}
+                            >
+                                {showDescription ? (
+                                    <>
+                                        <ChevronUp style={{ height: '1rem', width: '1rem', marginRight: '0.25rem' }} />
+                                        Hide description
+                                    </>
+                                ) : (
+                                    <>
+                                        <ChevronDown style={{ height: '1rem', width: '1rem', marginRight: '0.25rem' }} />
+                                        <PenLine style={{ height: '1rem', width: '1rem', marginRight: '0.25rem' }} />
+                                        Add description (optional)
+                                    </>
+                                )}
+                            </Button>
+                            {showDescription && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', animation: 'fadeIn 0.2s' }}>
+                                    <Label htmlFor="item_description" className="label" style={{ display: 'flex', alignItems: 'center' }}>
+                                        Description <span style={{ fontSize: '0.75rem', color: 'hsl(var(--muted-foreground))', marginLeft: '0.25rem' }}>(optional)</span>
+                                    </Label>
+                                    <Textarea
+                                        id="item_description"
+                                        className="textarea"
+                                        style={{ height: '6rem', resize: 'none' }}
+                                        {...register("item_description")}
+                                        placeholder="Add details about the item..."
+                                    />
+                                </div>
+                            )}
+                            <div style={{ marginTop: '2rem' }}>
                                 <Button
                                     type="submit"
-                                    className="w-full h-10 font-medium"
+                                    className="button"
+                                    style={{ width: '100%', height: '2.5rem', fontWeight: 500 }}
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
-                                        <span className="flex items-center">
+                                        <span style={{ display: 'flex', alignItems: 'center' }}>
                                             <svg
-                                                className="animate-spin ml-1 mr-2 h-4 w-4 text-white"
+                                                style={{ animation: 'spin 1s linear infinite', marginLeft: '0.25rem', marginRight: '0.5rem', height: '1rem', width: '1rem', color: 'hsl(var(--primary-foreground))' }}
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                             >
                                                 <circle
-                                                    className="opacity-25"
+                                                    style={{ opacity: 0.25 }}
                                                     cx="12"
                                                     cy="12"
                                                     r="10"
@@ -487,7 +396,7 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                                                     strokeWidth="4"
                                                 ></circle>
                                                 <path
-                                                    className="opacity-75"
+                                                    style={{ opacity: 0.75 }}
                                                     fill="currentColor"
                                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                                 ></path>
@@ -495,8 +404,8 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                                             Saving...
                                         </span>
                                     ) : (
-                                        <span className="flex items-center">
-                                            <Send className="mr-2 h-4 w-4" />
+                                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                                            <Send style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }} />
                                             Save Item
                                         </span>
                                     )}
@@ -507,29 +416,28 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                 </CardContent>
             </Card>
             <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent style={{ maxWidth: '28rem' }}>
                     <DialogHeader>
-                        <DialogTitle>Authentication Required</DialogTitle>
-                        <DialogDescription>
-                            You need to be logged in or registered to save an
-                            item.
+                        <DialogTitle style={{ color: 'hsl(var(--foreground))' }}>Authentication Required</DialogTitle>
+                        <DialogDescription style={{ color: 'hsl(var(--muted-foreground))' }}>
+                            You need to be logged in or registered to save an item.
                         </DialogDescription>
                     </DialogHeader>
-                    <DialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
+                    <DialogFooter style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem', '@media (min-width: 640px)': { flexDirection: 'row' } }}>
                         <Button
-                            className="w-full sm:w-auto"
+                            className="button"
+                            style={{ width: '100%', '@media (min-width: 640px)': { width: 'auto' } }}
                             onClick={handleLogin}
-                            variant="default"
                         >
-                            <LogIn className="mr-2 h-4 w-4" />
+                            <LogIn style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }} />
                             Login
                         </Button>
                         <Button
-                            className="w-full sm:w-auto"
+                            className="button"
+                            style={{ width: '100%', background: 'none', border: '1px solid hsl(var(--primary))', '@media (min-width: 640px)': { width: 'auto' } }}
                             onClick={handleRegister}
-                            variant="outline"
                         >
-                            <UserPlus className="mr-2 h-4 w-4" />
+                            <UserPlus style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }} />
                             Register
                         </Button>
                     </DialogFooter>

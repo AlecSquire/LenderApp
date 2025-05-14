@@ -21,17 +21,12 @@ export default function Items({ items, setItems }) {
                 setLoadingItems((prev) => ({ ...prev, [id]: true }));
 
                 const getCsrfToken = () => {
-                    const tokenMatch =
-                        document.cookie.match(/XSRF-TOKEN=([^;]+)/);
-                    return tokenMatch
-                        ? decodeURIComponent(tokenMatch[1])
-                        : null;
+                    const tokenMatch = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+                    return tokenMatch ? decodeURIComponent(tokenMatch[1]) : null;
                 };
 
                 const token = getCsrfToken();
-                if (!token) {
-                    throw new Error("CSRF token not found");
-                }
+                if (!token) throw new Error("CSRF token not found");
 
                 const currentItem = items.find((item) => item.id === id);
                 const newStatus = !currentItem.isReturned;
@@ -59,15 +54,13 @@ export default function Items({ items, setItems }) {
                 }
 
                 const updatedItem = await response.json();
-                // Update state with full item data, mapping is_returned to isReturned
                 setItems((prevItems) =>
                     prevItems.map((item) =>
                         item.id === id
                             ? {
                                   ...item,
                                   ...updatedItem.data,
-                                  isReturned:
-                                      updatedItem.data.is_returned === 1,
+                                  isReturned: updatedItem.data.is_returned === 1,
                               }
                             : item
                     )
@@ -85,16 +78,9 @@ export default function Items({ items, setItems }) {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {items.length > 0 ? (
                 items.map((item) => {
-                    const returnDate = item.return_date
-                        ? parseISO(item.return_date)
-                        : null;
-                    const daysRemaining = returnDate
-                        ? differenceInDays(returnDate, new Date())
-                        : null;
-                    const isOverdue =
-                        returnDate &&
-                        isBefore(returnDate, new Date()) &&
-                        !item.isReturned;
+                    const returnDate = item.return_date ? parseISO(item.return_date) : null;
+                    const daysRemaining = returnDate ? differenceInDays(returnDate, new Date()) : null;
+                    const isOverdue = returnDate && isBefore(returnDate, new Date()) && !item.isReturned;
                     const isLending = item.transaction_type !== "borrowing";
                     const isLoading = loadingItems[item.id] || false;
 
@@ -103,16 +89,12 @@ export default function Items({ items, setItems }) {
                             <Card
                                 key={item.id}
                                 className={cn(
-                                    "flex items-center justify-between p-4 bg-green-50 border-green-200 hover:border-green-300 transition-colors"
+                                    "flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-600 transition-colors"
                                 )}
                             >
                                 <div className="flex items-center gap-3">
                                     <Badge
-                                        variant={
-                                            isLending
-                                                ? "destructive"
-                                                : "default"
-                                        }
+                                        variant={isLending ? "destructive" : "default"}
                                         className="gap-1"
                                     >
                                         {isLending ? (
@@ -128,25 +110,21 @@ export default function Items({ items, setItems }) {
                                         )}
                                     </Badge>
                                     <div>
-                                        <p className="text-sm font-medium text-green-800">
+                                        <p className="text-sm font-medium text-green-800 dark:text-green-300">
                                             {item.item_name} (Returned)
                                         </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {item.contact_name}
-                                        </p>
+                                        <p className="text-xs text-muted">{item.contact_name}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     {isLoading ? (
-                                        <Loader2 className="h-4 w-4 animate-spin text-green-600" />
+                                        <Loader2 className="h-4 w-4 animate-spin text-green-500 dark:text-green-400" />
                                     ) : (
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            onClick={() =>
-                                                toggleReturned(item.id)
-                                            }
-                                            className="text-green-600 hover:text-green-800"
+                                            onClick={() => toggleReturned(item.id)}
+                                            className="text-green-500 dark:text-green-400 hover:text-green-600 dark:hover:text-green-300"
                                         >
                                             Mark Active
                                         </Button>
@@ -168,19 +146,15 @@ export default function Items({ items, setItems }) {
                             className={cn(
                                 "flex flex-col transition-colors",
                                 isLending
-                                    ? "border-orange-200 hover:border-orange-300"
-                                    : "border-blue-200 hover:border-blue-300",
-                                isOverdue && "border-red-300 bg-red-50"
+                                    ? "border-orange-200 dark:border-orange-700 hover:border-orange-300 dark:hover:border-orange-600"
+                                    : "border-blue-200 dark:border-blue-700 hover:border-blue-300 dark:hover:border-blue-600",
+                                isOverdue && "border-destructive bg-destructive/10 dark:bg-destructive/20"
                             )}
                         >
                             <CardHeader>
                                 <div className="flex justify-between items-center mb-2">
                                     <Badge
-                                        variant={
-                                            isLending
-                                                ? "destructive"
-                                                : "default"
-                                        }
+                                        variant={isLending ? "destructive" : "default"}
                                         className="gap-1"
                                     >
                                         {isLending ? (
@@ -197,16 +171,14 @@ export default function Items({ items, setItems }) {
                                     </Badge>
                                     <div className="flex items-center gap-2">
                                         {isLoading ? (
-                                            <Loader2 className="h-4 w-4 animate-spin text-gray-600" />
+                                            <Loader2 className="h-4 w-4 animate-spin text-foreground" />
                                         ) : (
                                             <>
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
-                                                    onClick={() =>
-                                                        toggleReturned(item.id)
-                                                    }
-                                                    className="text-yellow-600 hover:text-yellow-800"
+                                                    onClick={() => toggleReturned(item.id)}
+                                                    className="text-primary hover:text-primary/80"
                                                 >
                                                     Mark Returned
                                                 </Button>
@@ -214,19 +186,16 @@ export default function Items({ items, setItems }) {
                                                     className={cn(
                                                         "text-sm font-medium",
                                                         isOverdue
-                                                            ? "text-red-600"
+                                                            ? "text-destructive"
                                                             : daysRemaining > 0
-                                                            ? "text-yellow-600"
-                                                            : daysRemaining ===
-                                                              0
-                                                            ? "text-orange-600"
-                                                            : "text-red-600"
+                                                            ? "text-primary"
+                                                            : daysRemaining === 0
+                                                            ? "text-orange-500 dark:text-orange-400"
+                                                            : "text-muted"
                                                     )}
                                                 >
                                                     {isOverdue
-                                                        ? `${Math.abs(
-                                                              daysRemaining
-                                                          )} days overdue`
+                                                        ? `${Math.abs(daysRemaining)} days overdue`
                                                         : daysRemaining > 0
                                                         ? `${daysRemaining} days remaining`
                                                         : daysRemaining === 0
@@ -237,19 +206,17 @@ export default function Items({ items, setItems }) {
                                         )}
                                     </div>
                                 </div>
-                                <CardTitle>{item.item_name}</CardTitle>
-                                <CardTitle className="font-normal text-base text-muted-foreground">
+                                <CardTitle className="text-foreground">{item.item_name}</CardTitle>
+                                <CardTitle className="font-normal text-base text-muted">
                                     {item.contact_name}
                                 </CardTitle>
-                                <CardDescription>
-                                    {item?.item_description}
-                                </CardDescription>
+                                <CardDescription class edifici="text-muted">{item?.item_description}</CardDescription>
                             </CardHeader>
                             <CardContent className="flex-grow flex items-end">
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="w-full"
+                                    className="w-full button"
                                     asChild
                                 >
                                     <a href={`/item/${item.id}`}>
@@ -264,24 +231,21 @@ export default function Items({ items, setItems }) {
             ) : (
                 <Card className="flex flex-col items-center justify-center text-center p-6 border-dashed border-2 col-span-2 lg:col-span-1 h-60">
                     <CardHeader>
-                        <CardTitle className="text-xl">
+                        <CardTitle className="text-xl text-foreground">
                             Borrowed, but never forgotten
                         </CardTitle>
-                        <CardDescription className="text-base mt-2">
-                            Keep track of items you lend to friends and set
-                            return dates. We'll help you remember what's out
-                            there and chase them up when the time comes.
+                        <CardDescription className="text-base mt-2 text-muted">
+                            Keep track of items you lend to friends and set return dates. We'll help you remember what's out there and chase them up when the time comes.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col items-center gap-2 mt-2">
                             <div className="flex items-center gap-4">
-                                <ArrowUpRight className="h-8 w-8 text-orange-500" />
-                                <ArrowDownLeft className="h-8 w-8 text-blue-500" />
+                                <ArrowUpRight className="h-8 w-8 text-orange-500 dark:text-orange-400" />
+                                <ArrowDownLeft className="h-8 w-8 text-blue-500 dark:text-blue-400" />
                             </div>
-                            <p className="text-sm text-muted-foreground mt-2">
-                                Start by adding an item using the form on the
-                                right →
+                            <p className="text-sm text-muted mt-2">
+                                Start by adding an item using the form on the right →
                             </p>
                         </div>
                     </CardContent>
