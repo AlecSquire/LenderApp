@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -58,35 +57,4 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-    /* 🎨 New Theme Colors */
-  .blue {
-    --background: 220 90% 56%;
-    --foreground: 220 30% 20%;
-  }
-
-  .green {
-    --background: 160 80% 44%;
-    --foreground: 160 30% 20%;
-  }
-
-  .red {
-    --background: 0 84% 60%;
-    --foreground: 0 30% 20%;
-  }
-
-  .purple {
-    --background: 260 80% 60%;
-    --foreground: 260 30% 20%;
-  }
-
-  .orange {
-    --background: 30 90% 55%;
-    --foreground: 30 30% 20%;
-  }
-
-  .pink {
-    --background: 330 90% 60%;
-    --foreground: 330 30% 20%;
-  }
 }
-

@@ -1,20 +1,13 @@
 import '../css/app.css';
 import './bootstrap';
 
-import { ThemeProvider } from '@/components/ThemeProvider';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 
-function App() {
-    return (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            {children}
-        </ThemeProvider>
-    );
+function App({ children }) {
+    return <>{children}</>;
 }
-
-export default App;
 
 const appName = 'Lender';
 
@@ -22,8 +15,8 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
     setup({ el, App, props }) {
+        document.documentElement.classList.add('dark');
         const root = createRoot(el);
-
         root.render(<App {...props} />);
     },
     progress: {

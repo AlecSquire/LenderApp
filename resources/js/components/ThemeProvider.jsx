@@ -20,20 +20,10 @@ export function ThemeProvider({
 
     useEffect(() => {
         const root = window.document.documentElement;
-        const allThemes = [
-            "light",
-            "dark",
-            "blue",
-            "green",
-            "red",
-            "purple",
-            "orange",
-            "pink",
-        ];
-
-        // Remove all previous theme classes
-        root.classList.remove(...allThemes);
-
+        
+        // Remove existing theme classes
+        root.classList.remove("dark", "light");
+     
         if (theme === "system") {
             const systemTheme = window.matchMedia(
                 "(prefers-color-scheme: dark)"
