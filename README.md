@@ -1,6 +1,6 @@
-🚀 Lender - CRUD App with Automated Notifications
-Lender is a CRUD application designed to help you keep track of items you have lent to others. Whether it's your favorite book, tools, or money, Lender ensures the lender or borrower can be prompted endlessly to give youre stuff back.
+** this is a fork of my original project, the fork was necessary due to deployment issues caused by a vite build error 
 
+Lender - CRUD App with Automated Notifications Lender is a CRUD application designed to help you keep track of items you have lent to others. Whether it's your favorite book, tools, or money, Lender ensures the lender or borrower can be prompted endlessly to give youre stuff back.
 ✨ Key Features:
 
 CRUD Operations: Easily create, read, update, and delete lending records.
