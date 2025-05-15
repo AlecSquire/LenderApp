@@ -4,16 +4,16 @@
 
 /* ~/code/LenderApp/resources/css/app.css */
 :root {
-  --background: 210 40% 98%; /* Light mode: very light blue-gray */
-  --foreground: 222 47% 11%; /* Dark blue-gray text */
-  --card: 0 0% 100%; /* White */
-  --card-foreground: 222 47% 11%;
-  --primary: 217 91% 60%; /* Blue (~#3b82f6) */
-  --primary-foreground: 210 40% 98%; /* Light text on primary */
-  --muted-foreground: 215 16% 47%; /* Muted blue-gray */
-  --destructive: 217 91% 60%; /* Using blue instead of red */
-  --border: 214 32% 91%; /* Light border */
-  --ring: 221 83% 53%; /* Focus ring color */
+  --background: 222 47% 11%; /* Dark blue background (#0f172a) */
+  --foreground: 210 40% 98%; /* Light text */
+  --card: 217 33% 17%; /* Darker blue-gray (#1e293b) */
+  --card-foreground: 210 40% 98%;
+  --primary: 217 91% 60%; /* Blue (#3b82f6) */
+  --primary-foreground: 210 40% 98%;
+  --muted-foreground: 215 20% 65%; /* Lighter blue-gray */
+  --destructive: 221 83% 53%; /* Brighter blue (#3b82f6) */
+  --border: 217 33% 25%; /* Dark blue border */
+  --ring: 224 76% 48%; /* Focus ring color */
 }
 
 .dark {
