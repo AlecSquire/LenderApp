@@ -22,19 +22,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-    ArrowUpRight,
-    ArrowDownLeft,
-    Calendar,
-    Mail,
-    User,
-    Package,
-    CheckCircle2,
-    XCircle,
-    ArrowLeft,
-    Save,
-    AlertTriangle,
-} from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, Calendar, Mail, User, Package, CheckCircle2, XCircle, ArrowLeft, Save, AlertTriangle } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { router } from "@inertiajs/react";
@@ -191,10 +179,10 @@ export default function Item({ auth }) {
             user={auth.user}
             header={
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-foreground">Item Details</h2>
+                    <h2 className="text-xl font-semibold text-white">Item Details</h2>
                     <Link
                         href={route("dashboard")}
-                        className="text-sm font-medium text-muted hover:text-foreground"
+                        className="text-sm font-medium text-gray-300 hover:text-white"
                     >
                         Back to Dashboard
                     </Link>
@@ -204,18 +192,18 @@ export default function Item({ auth }) {
             <Head title={item ? `Item - ${item.item_name}` : "Loading..."} />
 
             <SidebarProvider>
-                <SidebarInset className="bg-background min-h-screen p-6">
+                <SidebarInset className="bg-[#0f172a] min-h-screen p-6">
                     {loading ? (
-                        <div className="container mx-auto text-foreground">Loading...</div>
+                        <div className="container mx-auto text-white">Loading...</div>
                     ) : error ? (
                         <div className="container mx-auto">
-                            <Card>
+                            <Card className="bg-[#1e293b] border-[#334155]">
                                 <CardContent className="pt-6">
-                                    <div className="text-destructive">{error}</div>
+                                    <div className="text-[#60a5fa]">{error}</div>
                                     <Button
                                         variant="outline"
                                         onClick={() => router.visit(route("dashboard"))}
-                                        className="mt-4"
+                                        className="mt-4 border-[#334155] text-white hover:bg-[#0f172a]"
                                     >
                                         Take me home
                                     </Button>
@@ -223,7 +211,7 @@ export default function Item({ auth }) {
                             </Card>
                         </div>
                     ) : !item ? (
-                        <div className="container mx-auto text-foreground">Item not found</div>
+                        <div className="container mx-auto text-white">Item not found</div>
                     ) : (
                         <div className="container mx-auto max-w-5xl">
                             <div className="flex items-center mb-6">
@@ -231,7 +219,7 @@ export default function Item({ auth }) {
                                     variant="ghost"
                                     size="sm"
                                     asChild
-                                    className="mr-4"
+                                    className="mr-4 text-gray-300 hover:text-white hover:bg-[#1e293b]"
                                 >
                                     <Link href={route("dashboard")}>
                                         <ArrowLeft className="mr-2 h-4 w-4" />
@@ -239,8 +227,7 @@ export default function Item({ auth }) {
                                     </Link>
                                 </Button>
                                 <Badge
-                                    variant={item.transaction_type !== "borrowing" ? "destructive" : "default"}
-                                    className="gap-1"
+                                    className="gap-1 bg-[#0f172a] text-gray-300 hover:bg-[#1e293b]"
                                 >
                                     {item.transaction_type !== "borrowing" ? (
                                         <>
@@ -257,14 +244,14 @@ export default function Item({ auth }) {
                             </div>
 
                             <div className="grid gap-6 md:grid-cols-3">
-                                <Card className="md:col-span-2">
+                                <Card className="md:col-span-2 bg-[#1e293b] border-[#334155]">
                                     <CardHeader>
                                         <div className="flex justify-between items-start">
                                             <div>
-                                                <CardTitle className="text-2xl text-foreground">
+                                                <CardTitle className="text-2xl text-white">
                                                     {item.item_name}
                                                 </CardTitle>
-                                                <CardDescription className="mt-2 text-muted">
+                                                <CardDescription className="mt-2 text-gray-400">
                                                     {item.item_description}
                                                 </CardDescription>
                                             </div>
@@ -272,9 +259,19 @@ export default function Item({ auth }) {
                                     </CardHeader>
                                     <CardContent>
                                         <Tabs defaultValue="details" className="w-full">
-                                            <TabsList>
-                                                <TabsTrigger value="details">Details</TabsTrigger>
-                                                <TabsTrigger value="notes">Notes</TabsTrigger>
+                                            <TabsList className="bg-[#0f172a]">
+                                                <TabsTrigger 
+                                                    value="details"
+                                                    className="data-[state=active]:bg-[#1e293b] data-[state=active]:text-white text-gray-400"
+                                                >
+                                                    Details
+                                                </TabsTrigger>
+                                                <TabsTrigger 
+                                                    value="notes"
+                                                    className="data-[state=active]:bg-[#1e293b] data-[state=active]:text-white text-gray-400"
+                                                >
+                                                    Notes
+                                                </TabsTrigger>
                                             </TabsList>
 
                                             <TabsContent value="details" className="space-y-4">
@@ -287,11 +284,11 @@ export default function Item({ auth }) {
                                                     ].map(({ icon: Icon, label, value }) => (
                                                         <div key={label} className="grid grid-cols-4 items-center gap-4">
                                                             <Label className="text-right">
-                                                                <Icon className="h-4 w-4 ml-auto text-foreground" />
+                                                                <Icon className="h-4 w-4 ml-auto text-gray-400" />
                                                             </Label>
                                                             <div className="col-span-3">
-                                                                <p className="font-medium text-foreground">{value}</p>
-                                                                <p className="text-sm text-muted">{label}</p>
+                                                                <p className="font-medium text-white">{value}</p>
+                                                                <p className="text-sm text-gray-400">{label}</p>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -302,14 +299,14 @@ export default function Item({ auth }) {
                                                 <div className="space-y-4">
                                                     <Textarea
                                                         placeholder="Add notes about this item..."
-                                                        className="min-h-[200px] textarea"
+                                                        className="min-h-[200px] bg-[#0f172a] border-[#334155] text-white placeholder-gray-400 focus:border-[#3b82f6] focus:ring focus:ring-[#3b82f6] focus:ring-opacity-20"
                                                         value={notes}
                                                         onChange={(e) => setNotes(e.target.value)}
                                                     />
                                                     <Button
                                                         onClick={handleNotesUpdate}
                                                         disabled={isSaving}
-                                                        className="w-full button"
+                                                        className="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white"
                                                     >
                                                         {isSaving ? (
                                                             "Saving..."
@@ -327,30 +324,30 @@ export default function Item({ auth }) {
                                 </Card>
 
                                 <div className="space-y-6">
-                                    <Card>
+                                    <Card className="bg-[#1e293b] border-[#334155]">
                                         <CardHeader>
-                                            <CardTitle className="text-foreground">Status</CardTitle>
+                                            <CardTitle className="text-white">Status</CardTitle>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="space-y-4">
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-sm font-medium text-foreground">
+                                                    <span className="text-sm font-medium text-white">
                                                         Current Status
                                                     </span>
                                                     <Badge
                                                         variant={item.isReturned ? "outline" : "secondary"}
                                                         className={cn(
                                                             item.isReturned
-                                                                ? "text-green-500 dark:text-green-400" // Adjusted for dark mode
-                                                                : "text-primary"
+                                                                ? "text-[#22d3ee] border-[#0e7490]" 
+                                                                : "text-[#60a5fa] bg-[#0f172a]"
                                                         )}
                                                     >
                                                         {item.isReturned ? "Returned" : "Active"}
                                                     </Badge>
                                                 </div>
-                                                <Separator />
+                                                <Separator className="bg-[#334155]" />
                                                 <div className="space-y-2">
-                                                    <Label className="text-sm text-foreground">Mark as:</Label>
+                                                    <Label className="text-sm text-white">Mark as:</Label>
                                                     <div className="grid grid-cols-2 gap-2">
                                                         <Dialog
                                                             open={isConfirmReturnOpen}
@@ -360,19 +357,19 @@ export default function Item({ auth }) {
                                                                 <Button
                                                                     variant="outline"
                                                                     size="sm"
-                                                                    className="w-full"
+                                                                    className="w-full border-[#334155] bg-[#1e293b] text-white hover:bg-[#0f172a]"
                                                                     disabled={item.isReturned}
                                                                 >
-                                                                    <CheckCircle2 className="mr-2 h-4 w-4 text-green-500 dark:text-green-400" />
+                                                                    <CheckCircle2 className="mr-2 h-4 w-4 text-[#22d3ee]" />
                                                                     Returned
                                                                 </Button>
                                                             </DialogTrigger>
-                                                            <DialogContent>
+                                                            <DialogContent className="bg-[#1e293b] border-[#334155] text-white">
                                                                 <DialogHeader>
-                                                                    <DialogTitle className="text-foreground">
+                                                                    <DialogTitle className="text-white">
                                                                         Mark as Returned
                                                                     </DialogTitle>
-                                                                    <DialogDescription className="text-muted">
+                                                                    <DialogDescription className="text-gray-400">
                                                                         Are you sure you want to mark this item as returned? This will delete the item from your list.
                                                                     </DialogDescription>
                                                                 </DialogHeader>
@@ -380,12 +377,14 @@ export default function Item({ auth }) {
                                                                     <Button
                                                                         variant="outline"
                                                                         onClick={() => setIsConfirmReturnOpen(false)}
+                                                                        className="border-[#334155] text-white hover:bg-[#0f172a]"
                                                                     >
                                                                         Cancel
                                                                     </Button>
                                                                     <Button
                                                                         variant="default"
                                                                         onClick={() => handleStatusChange(true)}
+                                                                        className="bg-[#3b82f6] hover:bg-[#2563eb] text-white"
                                                                     >
                                                                         Confirm
                                                                     </Button>
@@ -396,11 +395,11 @@ export default function Item({ auth }) {
                                                         <Button
                                                             variant="outline"
                                                             size="sm"
-                                                            className="w-full"
+                                                            className="w-full border-[#334155] bg-[#1e293b] text-white hover:bg-[#0f172a]"
                                                             disabled={!item.isReturned}
                                                             onClick={() => handleStatusChange(false)}
                                                         >
-                                                            <XCircle className="mr-2 h-4 w-4 text-primary" />
+                                                            <XCircle className="mr-2 h-4 w-4 text-[#60a5fa]" />
                                                             Active
                                                         </Button>
                                                     </div>
@@ -409,13 +408,13 @@ export default function Item({ auth }) {
                                         </CardContent>
                                     </Card>
 
-                                    <Card>
+                                    <Card className="bg-[#1e293b] border-[#334155]">
                                         <CardHeader>
-                                            <CardTitle className="text-foreground">Quick Actions</CardTitle>
+                                            <CardTitle className="text-white">Quick Actions</CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-2">
                                             <Button
-                                                className="w-full button"
+                                                className="w-full bg-[#0f172a] hover:bg-[#1e293b] text-white"
                                                 variant="secondary"
                                                 onClick={() => notify(item)}
                                             >
@@ -424,52 +423,54 @@ export default function Item({ auth }) {
 
                                             <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
                                                 <DialogTrigger asChild>
-                                                    <Button className="w-full" variant="destructive">
+                                                    <Button className="w-full bg-[#0c4a6e] hover:bg-[#0369a1] text-white" variant="destructive">
                                                         Delete Case
                                                     </Button>
                                                 </DialogTrigger>
-                                                <DialogContent>
+                                                <DialogContent className="bg-[#1e293b] border-[#334155] text-white">
                                                     <DialogHeader>
                                                         <div className="flex items-center gap-4">
-                                                            <div className="p-3 rounded-full bg-destructive/10">
-                                                                <AlertTriangle className="h-6 w-6 text-destructive" />
+                                                            <div className="p-3 rounded-full bg-[#0c4a6e]/30">
+                                                                <AlertTriangle className="h-6 w-6 text-[#38bdf8]" />
                                                             </div>
                                                             <div>
-                                                                <DialogTitle className="text-foreground">
+                                                                <DialogTitle className="text-white">
                                                                     Delete Item
                                                                 </DialogTitle>
-                                                                <DialogDescription className="text-muted">
+                                                                <DialogDescription className="text-gray-400">
                                                                     Are you sure you want to delete this item? This action cannot be undone.
                                                                 </DialogDescription>
                                                             </div>
                                                         </div>
                                                     </DialogHeader>
-                                                    <div className="rounded-lg border border-muted p-4 mt-4">
+                                                    <div className="rounded-lg border border-[#334155] p-4 mt-4">
                                                         <div className="space-y-3">
                                                             <div>
-                                                                <span className="text-sm font-medium text-foreground">
+                                                                <span className="text-sm font-medium text-white">
                                                                     Item Name
                                                                 </span>
-                                                                <p className="text-sm text-muted">{item.item_name}</p>
+                                                                <p className="text-sm text-gray-400">{item.item_name}</p>
                                                             </div>
                                                             <div>
-                                                                <span className="text-sm font-medium text-foreground">
+                                                                <span className="text-sm font-medium text-white">
                                                                     Contact
                                                                 </span>
-                                                                <p className="text-sm text-muted">{item.contact_name}</p>
+                                                                <p className="text-sm text-gray-400">{item.contact_name}</p>
                                                             </div>
                                                         </div>
-            </div>
+                                                    </div>
                                                     <DialogFooter className="mt-4">
                                                         <Button
                                                             variant="outline"
                                                             onClick={() => setIsDeleteOpen(false)}
+                                                            className="border-[#334155] text-white hover:bg-[#0f172a]"
                                                         >
                                                             Cancel
                                                         </Button>
                                                         <Button
                                                             variant="destructive"
                                                             onClick={handleDelete}
+                                                            className="bg-[#0c4a6e] hover:bg-[#0369a1] text-white"
                                                         >
                                                             Delete Item
                                                         </Button>

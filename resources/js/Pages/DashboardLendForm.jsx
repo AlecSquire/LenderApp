@@ -1,4 +1,3 @@
-// ~/code/LenderApp/resources/js/Pages/DashboardLendForm.jsx
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -21,14 +20,7 @@ import {
     DialogDescription,
     DialogFooter,
 } from "@/components/ui/dialog";
-import {
-    Send,
-    LogIn,
-    UserPlus,
-    ChevronDown,
-    ChevronUp,
-    PenLine,
-} from "lucide-react";
+import { Send, LogIn, UserPlus, ChevronDown, ChevronUp, PenLine } from 'lucide-react';
 import {
     Select,
     SelectContent,
@@ -76,7 +68,7 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                 }}
                 style={{ position: 'relative' }}
             >
-                <div style={{ position: 'absolute', inset: 0, backgroundColor: 'hsla(20, 14.3%, 4.1%, 0.5)', zIndex: 10, cursor: 'pointer' }} />
+                <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(15, 23, 42, 0.7)', zIndex: 10, cursor: 'pointer', borderRadius: '0.5rem' }} />
                 {children}
             </div>
         );
@@ -162,72 +154,64 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
 
     return (
         <>
-            <Card className="card" style={{ height: '100%', boxShadow: '0 1px 3px hsla(0, 0%, 0%, 0.1)' }}>
-                <CardHeader style={{ paddingBottom: '0.75rem', borderBottom: '1px solid hsl(20 14.3% 20%)' }}>
-                    <CardTitle style={{ fontSize: '1.25rem', fontWeight: 600, color: 'hsl(var(--foreground))' }}>
+            <Card className="card h-full bg-[#1e293b] border-[#334155] shadow-lg">
+                <CardHeader className="pb-3 border-b border-[#334155]">
+                    <CardTitle className="text-xl font-semibold text-white">
                         Add New Item
                     </CardTitle>
-                    <CardDescription style={{ fontSize: '0.875rem', color: 'hsl(var(--muted-foreground))' }}>
+                    <CardDescription className="text-gray-400">
                         Record an item you're {transactionType === "lending" ? "lending to someone" : "borrowing from someone"}
                     </CardDescription>
                 </CardHeader>
-                <CardContent style={{ paddingTop: '1.5rem' }}>
+                <CardContent className="pt-6">
                     <FormWrapper>
-                        <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap: '1.5rem', backgroundColor: 'hsla(20, 14.3%, 10%, 0.3)', padding: '0.75rem', borderRadius: '0.5rem' }}>
-                                <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'hsl(var(--foreground))' }}>I am:</span>
-                                <div style={{ display: 'flex', gap: '1rem' }}>
+                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+                            <div className="flex items-center justify-start gap-6 bg-[#0f172a]/50 p-3 rounded-lg">
+                                <span className="text-sm font-medium text-gray-300">I am:</span>
+                                <div className="flex gap-4">
                                     <Controller
                                         name="transaction_type"
                                         control={control}
                                         render={({ field }) => (
                                             <>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <div className="flex items-center gap-2">
                                                     <input
                                                         type="radio"
                                                         id="lending"
                                                         value="lending"
-                                                        style={{ display: 'none' }}
+                                                        className="hidden"
                                                         checked={field.value === "lending"}
                                                         onChange={() => field.onChange("lending")}
                                                     />
                                                     <label
                                                         htmlFor="lending"
                                                         onClick={() => field.onChange("lending")}
-                                                        style={{
-                                                            padding: '0.25rem 0.75rem',
-                                                            borderRadius: '9999px',
-                                                            fontSize: '0.875rem',
-                                                            cursor: 'pointer',
-                                                            backgroundColor: field.value === "lending" ? 'hsl(var(--primary))' : 'transparent',
-                                                            color: field.value === "lending" ? 'hsl(var(--primary-foreground))' : 'hsl(var(--foreground))',
-                                                            border: field.value === "lending" ? 'none' : '1px solid hsla(20, 14.3%, 20%, 0.2)',
-                                                        }}
+                                                        className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
+                                                            field.value === "lending" 
+                                                                ? "bg-[#3b82f6] text-white" 
+                                                                : "bg-transparent text-gray-300 border border-[#334155]"
+                                                        }`}
                                                     >
                                                         Lending
                                                     </label>
                                                 </div>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <div className="flex items-center gap-2">
                                                     <input
                                                         type="radio"
                                                         id="borrowing"
                                                         value="borrowing"
-                                                        style={{ display: 'none' }}
+                                                        className="hidden"
                                                         checked={field.value === "borrowing"}
                                                         onChange={() => field.onChange("borrowing")}
                                                     />
                                                     <label
                                                         htmlFor="borrowing"
                                                         onClick={() => field.onChange("borrowing")}
-                                                        style={{
-                                                            padding: '0.25rem 0.75rem',
-                                                            borderRadius: '9999px',
-                                                            fontSize: '0.875rem',
-                                                            cursor: 'pointer',
-                                                            backgroundColor: field.value === "borrowing" ? 'hsl(var(--primary))' : 'transparent',
-                                                            color: field.value === "borrowing" ? 'hsl(var(--primary-foreground))' : 'hsl(var(--foreground))',
-                                                            border: field.value === "borrowing" ? 'none' : '1px solid hsla(20, 14.3%, 20%, 0.2)',
-                                                        }}
+                                                        className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
+                                                            field.value === "borrowing" 
+                                                                ? "bg-[#3b82f6] text-white" 
+                                                                : "bg-transparent text-gray-300 border border-[#334155]"
+                                                        }`}
                                                     >
                                                         Borrowing
                                                     </label>
@@ -237,49 +221,46 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                                     />
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <Label htmlFor="item_name" className="label">
-                                    Item Name <span className="text-destructive">*</span>
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="item_name" className="text-gray-300">
+                                    Item Name <span className="text-[#60a5fa]">*</span>
                                 </Label>
                                 <Input
                                     id="item_name"
-                                    className="input"
-                                    style={{ height: '2.5rem' }}
+                                    className="h-10 bg-[#0f172a] border-[#334155] text-white placeholder-gray-400 focus:border-[#3b82f6] focus:ring focus:ring-[#3b82f6] focus:ring-opacity-20"
                                     {...register("item_name", { required: "Item name is required" })}
                                     placeholder={transactionType === "lending" ? "What are you lending?" : "What are you borrowing?"}
                                 />
                                 {errors.item_name && (
-                                    <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                    <p className="text-[#60a5fa] text-xs mt-1">
                                         {errors.item_name.message}
                                     </p>
                                 )}
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <Label htmlFor="contact_name" className="label">
-                                    Contact Name <span className="text-destructive">*</span>
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="contact_name" className="text-gray-300">
+                                    Contact Name <span className="text-[#60a5fa]">*</span>
                                 </Label>
                                 <Input
                                     id="contact_name"
-                                    className="input"
-                                    style={{ height: '2.5rem' }}
+                                    className="h-10 bg-[#0f172a] border-[#334155] text-white placeholder-gray-400 focus:border-[#3b82f6] focus:ring focus:ring-[#3b82f6] focus:ring-opacity-20"
                                     {...register("contact_name", { required: "Contact name is required" })}
                                     placeholder={transactionType === "lending" ? "Who are you lending to?" : "Who are you borrowing from?"}
                                 />
                                 {errors.contact_name && (
-                                    <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                    <p className="text-[#60a5fa] text-xs mt-1">
                                         {errors.contact_name.message}
                                     </p>
                                 )}
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <Label htmlFor="contact_email" className="label">
-                                    Contact Email <span className="text-destructive">*</span>
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="contact_email" className="text-gray-300">
+                                    Contact Email <span className="text-[#60a5fa]">*</span>
                                 </Label>
                                 <Input
                                     id="contact_email"
                                     type="email"
-                                    className="input"
-                                    style={{ height: '2.5rem' }}
+                                    className="h-10 bg-[#0f172a] border-[#334155] text-white placeholder-gray-400 focus:border-[#3b82f6] focus:ring focus:ring-[#3b82f6] focus:ring-opacity-20"
                                     {...register("contact_email", {
                                         required: "Email is required",
                                         pattern: { value: /^\S+@\S+$/i, message: "Invalid email format" },
@@ -287,22 +268,22 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                                     placeholder="Email address"
                                 />
                                 {errors.contact_email && (
-                                    <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                    <p className="text-[#60a5fa] text-xs mt-1">
                                         {errors.contact_email.message}
                                     </p>
                                 )}
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                            <div className="flex flex-col gap-2">
+                                <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <Label htmlFor="rough_return_period" className="label">
+                                        <Label htmlFor="rough_return_period" className="text-gray-300">
                                             Rough Return Date
                                         </Label>
                                         <Select onValueChange={handleRoughReturnChange}>
-                                            <SelectTrigger className="select" style={{ height: '2.5rem', width: '100%' }}>
+                                            <SelectTrigger className="h-10 bg-[#0f172a] border-[#334155] text-white focus:ring-[#3b82f6]">
                                                 <SelectValue placeholder="Select period" />
                                             </SelectTrigger>
-                                            <SelectContent>
+                                            <SelectContent className="bg-[#1e293b] border-[#334155] text-white">
                                                 <SelectItem value="1week">1 week</SelectItem>
                                                 <SelectItem value="1month">1 month</SelectItem>
                                                 <SelectItem value="3months">3 months</SelectItem>
@@ -312,18 +293,17 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                                         </Select>
                                     </div>
                                     <div>
-                                        <Label htmlFor="return_date" className="label">
-                                            Exact Return Date <span className="text-destructive">*</span>
+                                        <Label htmlFor="return_date" className="text-gray-300">
+                                            Exact Return Date <span className="text-[#60a5fa]">*</span>
                                         </Label>
                                         <Input
                                             id="return_date"
                                             type="date"
-                                            className="input"
-                                            style={{ height: '2.5rem' }}
+                                            className="h-10 bg-[#0f172a] border-[#334155] text-white focus:border-[#3b82f6] focus:ring focus:ring-[#3b82f6] focus:ring-opacity-20"
                                             {...register("return_date", { required: "Return date is required" })}
                                         />
                                         {errors.return_date && (
-                                            <p className="text-destructive" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                            <p className="text-[#60a5fa] text-xs mt-1">
                                                 {errors.return_date.message}
                                             </p>
                                         )}
@@ -332,63 +312,51 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                             </div>
                             <Button
                                 type="button"
-                                className="button"
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    fontSize: '0.875rem',
-                                    color: 'hsl(var(--muted-foreground))',
-                                    width: '100%',
-                                    justifyContent: 'start',
-                                    padding: 0,
-                                    background: 'none',
-                                }}
+                                className="flex items-center text-sm text-gray-400 w-full justify-start p-0 bg-transparent hover:bg-transparent hover:text-gray-300"
                                 onClick={() => setShowDescription(!showDescription)}
                             >
                                 {showDescription ? (
                                     <>
-                                        <ChevronUp style={{ height: '1rem', width: '1rem', marginRight: '0.25rem' }} />
+                                        <ChevronUp className="h-4 w-4 mr-1" />
                                         Hide description
                                     </>
                                 ) : (
                                     <>
-                                        <ChevronDown style={{ height: '1rem', width: '1rem', marginRight: '0.25rem' }} />
-                                        <PenLine style={{ height: '1rem', width: '1rem', marginRight: '0.25rem' }} />
+                                        <ChevronDown className="h-4 w-4 mr-1" />
+                                        <PenLine className="h-4 w-4 mr-1" />
                                         Add description (optional)
                                     </>
                                 )}
                             </Button>
                             {showDescription && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', animation: 'fadeIn 0.2s' }}>
-                                    <Label htmlFor="item_description" className="label" style={{ display: 'flex', alignItems: 'center' }}>
-                                        Description <span style={{ fontSize: '0.75rem', color: 'hsl(var(--muted-foreground))', marginLeft: '0.25rem' }}>(optional)</span>
+                                <div className="flex flex-col gap-2 animate-fadeIn">
+                                    <Label htmlFor="item_description" className="flex items-center text-gray-300">
+                                        Description <span className="text-xs text-gray-400 ml-1">(optional)</span>
                                     </Label>
                                     <Textarea
                                         id="item_description"
-                                        className="textarea"
-                                        style={{ height: '6rem', resize: 'none' }}
+                                        className="h-24 resize-none bg-[#0f172a] border-[#334155] text-white placeholder-gray-400 focus:border-[#3b82f6] focus:ring focus:ring-[#3b82f6] focus:ring-opacity-20"
                                         {...register("item_description")}
                                         placeholder="Add details about the item..."
                                     />
                                 </div>
                             )}
-                            <div style={{ marginTop: '2rem' }}>
+                            <div className="mt-8">
                                 <Button
                                     type="submit"
-                                    className="button"
-                                    style={{ width: '100%', height: '2.5rem', fontWeight: 500 }}
+                                    className="w-full h-10 font-medium bg-[#3b82f6] hover:bg-[#2563eb] text-white focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 focus:ring-offset-[#1e293b]"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
-                                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                                        <span className="flex items-center">
                                             <svg
-                                                style={{ animation: 'spin 1s linear infinite', marginLeft: '0.25rem', marginRight: '0.5rem', height: '1rem', width: '1rem', color: 'hsl(var(--primary-foreground))' }}
+                                                className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                             >
                                                 <circle
-                                                    style={{ opacity: 0.25 }}
+                                                    className="opacity-25"
                                                     cx="12"
                                                     cy="12"
                                                     r="10"
@@ -396,7 +364,7 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                                                     strokeWidth="4"
                                                 ></circle>
                                                 <path
-                                                    style={{ opacity: 0.75 }}
+                                                    className="opacity-75"
                                                     fill="currentColor"
                                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                                 ></path>
@@ -404,8 +372,8 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                                             Saving...
                                         </span>
                                     ) : (
-                                        <span style={{ display: 'flex', alignItems: 'center' }}>
-                                            <Send style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }} />
+                                        <span className="flex items-center">
+                                            <Send className="mr-2 h-4 w-4" />
                                             Save Item
                                         </span>
                                     )}
@@ -416,28 +384,26 @@ export default function DashboardLendForm({ isAuthenticated, addItem }) {
                 </CardContent>
             </Card>
             <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
-                <DialogContent style={{ maxWidth: '28rem' }}>
+                <DialogContent className="max-w-md bg-[#1e293b] border-[#334155] text-white">
                     <DialogHeader>
-                        <DialogTitle style={{ color: 'hsl(var(--foreground))' }}>Authentication Required</DialogTitle>
-                        <DialogDescription style={{ color: 'hsl(var(--muted-foreground))' }}>
+                        <DialogTitle className="text-white">Authentication Required</DialogTitle>
+                        <DialogDescription className="text-gray-400">
                             You need to be logged in or registered to save an item.
                         </DialogDescription>
                     </DialogHeader>
-                    <DialogFooter style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem', '@media (min-width: 640px)': { flexDirection: 'row' } }}>
+                    <DialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
                         <Button
-                            className="button"
-                            style={{ width: '100%', '@media (min-width: 640px)': { width: 'auto' } }}
+                            className="w-full sm:w-auto bg-[#3b82f6] hover:bg-[#2563eb] text-white"
                             onClick={handleLogin}
                         >
-                            <LogIn style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }} />
+                            <LogIn className="mr-2 h-4 w-4" />
                             Login
                         </Button>
                         <Button
-                            className="button"
-                            style={{ width: '100%', background: 'none', border: '1px solid hsl(var(--primary))', '@media (min-width: 640px)': { width: 'auto' } }}
+                            className="w-full sm:w-auto bg-transparent border border-[#3b82f6] text-[#60a5fa] hover:bg-[#1e40af]/20"
                             onClick={handleRegister}
                         >
-                            <UserPlus style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }} />
+                            <UserPlus className="mr-2 h-4 w-4" />
                             Register
                         </Button>
                     </DialogFooter>

@@ -9,7 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { differenceInDays, parseISO, isBefore } from "date-fns";
-import { ArrowUpRight, ArrowDownLeft, ArrowRight, Loader2 } from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 
 export default function Items({ items, setItems }) {
@@ -89,13 +89,12 @@ export default function Items({ items, setItems }) {
                             <Card
                                 key={item.id}
                                 className={cn(
-                                    "flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700 hover:border-green-300 dark:hover:border-green-600 transition-colors"
+                                    "flex items-center justify-between p-4 bg-[#0d2b3e] border-[#0e7490] hover:border-[#06b6d4] transition-colors"
                                 )}
                             >
                                 <div className="flex items-center gap-3">
                                     <Badge
-                                        variant={isLending ? "destructive" : "default"}
-                                        className="gap-1"
+                                        className="gap-1 bg-[#0f172a] text-gray-300 hover:bg-[#1e293b]"
                                     >
                                         {isLending ? (
                                             <>
@@ -110,26 +109,31 @@ export default function Items({ items, setItems }) {
                                         )}
                                     </Badge>
                                     <div>
-                                        <p className="text-sm font-medium text-green-800 dark:text-green-300">
+                                        <p className="text-sm font-medium text-[#22d3ee]">
                                             {item.item_name} (Returned)
                                         </p>
-                                        <p className="text-xs text-muted">{item.contact_name}</p>
+                                        <p className="text-xs text-gray-400">{item.contact_name}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     {isLoading ? (
-                                        <Loader2 className="h-4 w-4 animate-spin text-green-500 dark:text-green-400" />
+                                        <Loader2 className="h-4 w-4 animate-spin text-[#22d3ee]" />
                                     ) : (
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => toggleReturned(item.id)}
-                                            className="text-green-500 dark:text-green-400 hover:text-green-600 dark:hover:text-green-300"
+                                            className="text-[#22d3ee] hover:text-[#06b6d4] hover:bg-[#0f172a]"
                                         >
                                             Mark Active
                                         </Button>
                                     )}
-                                    <Button variant="outline" size="sm" asChild>
+                                    <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        asChild
+                                        className="border-[#334155] bg-[#1e293b] text-white hover:bg-[#0f172a]"
+                                    >
                                         <a href={`/item/${item.id}`}>
                                             View
                                             <ArrowRight className="ml-2 h-4 w-4" />
@@ -144,18 +148,17 @@ export default function Items({ items, setItems }) {
                         <Card
                             key={item.id}
                             className={cn(
-                                "flex flex-col transition-colors",
+                                "flex flex-col transition-colors bg-[#1e293b]",
                                 isLending
-                                    ? "border-orange-200 dark:border-orange-700 hover:border-orange-300 dark:hover:border-orange-600"
-                                    : "border-blue-200 dark:border-blue-700 hover:border-blue-300 dark:hover:border-blue-600",
-                                isOverdue && "border-destructive bg-destructive/10 dark:bg-destructive/20"
+                                    ? "border-[#3b82f6] hover:border-[#60a5fa]"
+                                    : "border-[#0ea5e9] hover:border-[#38bdf8]",
+                                isOverdue && "border-[#0ea5e9] bg-[#0c4a6e]/30"
                             )}
                         >
                             <CardHeader>
                                 <div className="flex justify-between items-center mb-2">
                                     <Badge
-                                        variant={isLending ? "destructive" : "default"}
-                                        className="gap-1"
+                                        className="gap-1 bg-[#0f172a] text-gray-300 hover:bg-[#1e293b]"
                                     >
                                         {isLending ? (
                                             <>
@@ -171,14 +174,14 @@ export default function Items({ items, setItems }) {
                                     </Badge>
                                     <div className="flex items-center gap-2">
                                         {isLoading ? (
-                                            <Loader2 className="h-4 w-4 animate-spin text-foreground" />
+                                            <Loader2 className="h-4 w-4 animate-spin text-white" />
                                         ) : (
                                             <>
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => toggleReturned(item.id)}
-                                                    className="text-primary hover:text-primary/80"
+                                                    className="text-[#60a5fa] hover:text-[#3b82f6] hover:bg-[#0f172a]"
                                                 >
                                                     Mark Returned
                                                 </Button>
@@ -186,12 +189,12 @@ export default function Items({ items, setItems }) {
                                                     className={cn(
                                                         "text-sm font-medium",
                                                         isOverdue
-                                                            ? "text-destructive"
+                                                            ? "text-[#38bdf8]"
                                                             : daysRemaining > 0
-                                                            ? "text-primary"
+                                                            ? "text-[#60a5fa]"
                                                             : daysRemaining === 0
-                                                            ? "text-orange-500 dark:text-orange-400"
-                                                            : "text-muted"
+                                                            ? "text-[#38bdf8]"
+                                                            : "text-gray-400"
                                                     )}
                                                 >
                                                     {isOverdue
@@ -206,17 +209,17 @@ export default function Items({ items, setItems }) {
                                         )}
                                     </div>
                                 </div>
-                                <CardTitle className="text-foreground">{item.item_name}</CardTitle>
-                                <CardTitle className="font-normal text-base text-muted">
+                                <CardTitle className="text-white">{item.item_name}</CardTitle>
+                                <CardTitle className="font-normal text-base text-gray-400">
                                     {item.contact_name}
                                 </CardTitle>
-                                <CardDescription class edifici="text-muted">{item?.item_description}</CardDescription>
+                                <CardDescription className="text-gray-400">{item?.item_description}</CardDescription>
                             </CardHeader>
                             <CardContent className="flex-grow flex items-end">
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="w-full button"
+                                    className="w-full border-[#334155] bg-[#1e293b] text-white hover:bg-[#0f172a]"
                                     asChild
                                 >
                                     <a href={`/item/${item.id}`}>
@@ -229,22 +232,22 @@ export default function Items({ items, setItems }) {
                     );
                 })
             ) : (
-                <Card className="flex flex-col items-center justify-center text-center p-6 border-dashed border-2 col-span-2 lg:col-span-1 h-60">
+                <Card className="flex flex-col items-center justify-center text-center p-6 border-dashed border-2 border-[#334155] col-span-2 lg:col-span-1 h-60 bg-[#1e293b]">
                     <CardHeader>
-                        <CardTitle className="text-xl text-foreground">
+                        <CardTitle className="text-xl text-white">
                             Borrowed, but never forgotten
                         </CardTitle>
-                        <CardDescription className="text-base mt-2 text-muted">
+                        <CardDescription className="text-base mt-2 text-gray-400">
                             Keep track of items you lend to friends and set return dates. We'll help you remember what's out there and chase them up when the time comes.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col items-center gap-2 mt-2">
                             <div className="flex items-center gap-4">
-                                <ArrowUpRight className="h-8 w-8 text-orange-500 dark:text-orange-400" />
-                                <ArrowDownLeft className="h-8 w-8 text-blue-500 dark:text-blue-400" />
+                                <ArrowUpRight className="h-8 w-8 text-[#60a5fa]" />
+                                <ArrowDownLeft className="h-8 w-8 text-[#38bdf8]" />
                             </div>
-                            <p className="text-sm text-muted mt-2">
+                            <p className="text-sm text-gray-400 mt-2">
                                 Start by adding an item using the form on the right →
                             </p>
                         </div>

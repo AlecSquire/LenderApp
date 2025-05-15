@@ -56,15 +56,15 @@ export default function Dashboard({ payments }) {
         <AuthenticatedLayout>
             <Head title="Lender Dashboard" />
             <SidebarProvider>
-                <SidebarInset className="bg-background min-h-screen">
+                <SidebarInset className="bg-[#0f172a] min-h-screen">
                     <header
-                        className="sticky top-0 z-50 flex h-16 items-center border-b border-[hsl(20_14.3%_20%)] bg-background px-6"
+                        className="sticky top-0 z-50 flex h-16 items-center border-b border-[#1e293b] bg-[#1e293b] px-6"
                     >
-                        <h1 className="text-xl font-semibold text-foreground">Lender</h1>
-                        <Separator orientation="vertical" className="mx-4 h-6 bg-[hsl(20_14.3%_20%)]" />
+                        <h1 className="text-xl font-semibold text-white">Lender</h1>
+                        <Separator orientation="vertical" className="mx-4 h-6 bg-[#334155]" />
                         <a
                             href="/dashboard"
-                            className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                            className="text-sm font-medium text-gray-300 hover:text-white"
                         >
                             {isAuthenticated && greeting}
                         </a>
@@ -73,7 +73,7 @@ export default function Dashboard({ payments }) {
                                 <Link
                                     href="/logout"
                                     method="post"
-                                    className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                                    className="text-sm font-medium text-gray-300 hover:text-white"
                                 >
                                     Log out
                                 </Link>
@@ -81,13 +81,13 @@ export default function Dashboard({ payments }) {
                                 <>
                                     <Link
                                         href="/login"
-                                        className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                                        className="text-sm font-medium text-gray-300 hover:text-white"
                                     >
                                         Login
                                     </Link>
                                     <Link
                                         href="/register"
-                                        className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                                        className="text-sm font-medium text-gray-300 hover:text-white"
                                     >
                                         Register
                                     </Link>
@@ -98,12 +98,12 @@ export default function Dashboard({ payments }) {
 
                     <div className="mx-auto max-w-7xl px-6 py-6">
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                            <Card className="card flex flex-col h-[800px]">
+                            <Card className="card flex flex-col h-[800px] bg-[#1e293b] border-[#334155] shadow-lg">
                                 <CardContent className="flex-1 overflow-auto p-0">
                                     <Items items={items} setItems={setItems} />
                                 </CardContent>
                             </Card>
-                            <Card className="card flex flex-col h-[800px]">
+                            <Card className="card flex flex-col h-[800px] bg-[#1e293b] border-[#334155] shadow-lg">
                                 <DashboardLendForm isAuthenticated={isAuthenticated} addItem={addItem} />
                             </Card>
                         </div>
